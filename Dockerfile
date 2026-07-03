@@ -39,9 +39,9 @@ RUN mkdir -p uploads \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
     && chmod -R 777 /var/www/html/uploads \
-    && if [ -f /var/www/html/scripts/render_boot.sh ]; then chmod +x /var/www/html/scripts/render_boot.sh; fi
+    && if [ -f /var/www/html/scripts/render_boot.sh ]; then sed -i 's/\r$//' /var/www/html/scripts/render_boot.sh; fi
 
 EXPOSE 80
 
-CMD ["/var/www/html/scripts/render_boot.sh"]
+CMD ["sh", "/var/www/html/scripts/render_boot.sh"]
 
