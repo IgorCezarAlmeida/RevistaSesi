@@ -35,6 +35,7 @@ $adminController = new AdminController($usuarioDAO, $artigoDAO, $categoriaDAO);
 $action = $_GET['action'] ?? 'home';
 $method = $_SERVER['REQUEST_METHOD'];
 
+try {
 switch ($action) {
     case 'home':
         $artigoController->home();
@@ -130,6 +131,16 @@ switch ($action) {
 
     default:
         $artigoController->home();
+}
+} catch (\Doctrine\DBAL\Exception\TableNotFoundException $e) {
+    http_response_code(500);
+    echo '<h1>Banco de dados nao inicializado</h1>';
+    echo '<p>As tabelas principais nao existem no TiDB (ex.: artigos).</p>';
+    echo '<p>Execute o schema SQL (database/banco.sql) ou rode: <code>composer db:init-core</code>.</p>';
+} catch (\Throwable $e) {
+    http_response_code(500);
+    echo '<h1>Erro interno</h1>';
+    echo '<p>' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . '</p>';
 }
 
 

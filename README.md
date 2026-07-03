@@ -17,6 +17,21 @@ composer install
 
 Crie o banco e importe `database/banco.sql`.
 
+## TiDB (Render)
+
+Se aparecer erro como `Table 'revistasesi.artigos' doesn't exist`, a conexao com TiDB esta OK,
+mas o schema ainda nao foi criado nesse banco.
+
+Opcao 1 (completa): importar `database/banco.sql` no TiDB.
+
+Opcao 2 (rapida para o app funcionar):
+
+```powershell
+cd "C:\Users\igorc\OneDrive\Área de Trabalho\Projetos_Tarefas\Revista SESI\ProjetoArtigos"
+composer db:init-core
+composer db:check
+```
+
 ## Rodar localmente
 
 ```powershell

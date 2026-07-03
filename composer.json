@@ -21,7 +21,9 @@
   "scripts": {
     "serve": "php -S localhost:8000 -t public",
     "lint": "php -l public/index.php",
-    "smoke": "php scripts/smoke.php"
+    "smoke": "php scripts/smoke.php",
+    "db:check": "php scripts/tidb_check.php",
+    "db:init-core": "php scripts/tidb_init_core.php"
   }
 }
 
