@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: revista-sesi
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+
+    # Variáveis de ambiente — edite pelo painel do Render ou deixe aqui
+    envVars:
+      - key: DB_HOST
+        value: gateway01.us-east-1.prod.aws.tidbcloud.com
+      - key: DB_PORT
+        value: "4000"
+      - key: DB_NAME
+        value: revistaSesi
+      - key: DB_USER
+        value: 2pxmsaj29iFCsGe.root
+      - key: DB_PASS
+        value: QRCcMQV5m7Y8e7HR
+
+    healthCheckPath: /index.php
+

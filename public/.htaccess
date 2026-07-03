@@ -1,0 +1,12 @@
+Options -MultiViews
+RewriteEngine On
+
+# Serve arquivos estáticos diretamente (css, js, imagens)
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Tudo que não for arquivo real vai para o index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+

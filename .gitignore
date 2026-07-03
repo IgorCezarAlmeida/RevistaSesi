@@ -1,0 +1,7 @@
+/vendor/
+/uploads/*
+!/uploads/.gitkeep
+.env
+.idea/
+*.iml
+

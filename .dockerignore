@@ -1,0 +1,8 @@
+vendor/
+uploads/*
+!uploads/.gitkeep
+.git/
+.idea/
+*.iml
+scripts/
+
