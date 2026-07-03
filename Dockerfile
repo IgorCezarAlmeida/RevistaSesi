@@ -38,7 +38,10 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN mkdir -p uploads \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
-    && chmod -R 777 /var/www/html/uploads
+    && chmod -R 777 /var/www/html/uploads \
+    && chmod +x /var/www/html/scripts/render_boot.sh
 
 EXPOSE 80
+
+CMD ["/var/www/html/scripts/render_boot.sh"]
 
