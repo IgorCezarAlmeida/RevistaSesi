@@ -4,5 +4,4 @@ uploads/*
 .git/
 .idea/
 *.iml
-scripts/
 
