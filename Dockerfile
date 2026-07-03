@@ -13,8 +13,7 @@ RUN apt-get update && apt-get install -y \
 
 # ── Habilita mod_rewrite e configura o Apache para o front controller ─────────
 RUN a2enmod rewrite \
-    && printf '%s
-
+    && printf '%s\n' \
        '<VirtualHost *:80>' \
        '    DocumentRoot /var/www/html/public' \
        '    DirectoryIndex index.php index.html' \
