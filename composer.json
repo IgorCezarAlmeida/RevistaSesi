@@ -9,6 +9,12 @@
   },
   "autoload": {
     "psr-4": {
+      "App\\Config\\": "src/config/",
+      "App\\Controller\\": "src/controller/",
+      "App\\DAO\\": "src/dao/",
+      "App\\Helpers\\": "src/helpers/",
+      "App\\Middleware\\": "src/middleware/",
+      "App\\Model\\": "src/model/",
       "App\\": "src/"
     }
   },

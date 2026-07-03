@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Config;
 
+use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 
@@ -36,7 +37,8 @@ final class Database
             ],
         ];
 
-        self::$entityManager = new EntityManager($connection, $config);
+        $dbalConnection = DriverManager::getConnection($connection, $config);
+        self::$entityManager = new EntityManager($dbalConnection, $config);
         return self::$entityManager;
     }
 }
