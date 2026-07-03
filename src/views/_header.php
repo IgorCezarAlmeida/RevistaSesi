@@ -21,7 +21,7 @@ $title = $title ?? 'ProjetoArtigos';
   <nav>
     <a href="/index.php">Home</a>
     <a href="/index.php?action=categorias">Categorias</a>
-    <a href="/pesquisar.php">Pesquisar</a>
+    <a href="/index.php?action=pesquisar">Pesquisar</a>
     <?php if (Session::get('user_id')): ?>
       <a href="/index.php?action=perfil">Perfil</a>
       <a href="/index.php?action=artigo/criar">Novo Artigo</a>

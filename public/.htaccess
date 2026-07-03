@@ -1,8 +1,13 @@
 Options -MultiViews
 RewriteEngine On
 
-# Serve arquivos estáticos diretamente (css, js, imagens)
+# Serve arquivos estáticos diretamente
 RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Se o arquivo existir em assets, deixa o Apache servir direto
+RewriteCond %{REQUEST_URI} ^/assets/
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f
 RewriteRule ^ - [L]
 
 # Tudo que não for arquivo real vai para o index.php

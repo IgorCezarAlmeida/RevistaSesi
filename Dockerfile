@@ -11,17 +11,20 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_mysql \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# ── Habilita mod_rewrite do Apache ─────────────────────────────────────────────
-RUN a2enmod rewrite
+# ── Habilita mod_rewrite e configura o Apache para o front controller ─────────
+RUN a2enmod rewrite \
+    && printf '%s
 
-# ── Aponta DocumentRoot para /var/www/html/public ─────────────────────────────
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' \
-        /etc/apache2/sites-available/000-default.conf \
-    && sed -i 's|<Directory /var/www/>|<Directory /var/www/html/public/>|g' \
-        /etc/apache2/apache2.conf \
-    && sed -i 's|AllowOverride None|AllowOverride All|g' \
-        /etc/apache2/apache2.conf
-
+       '<VirtualHost *:80>' \
+       '    DocumentRoot /var/www/html/public' \
+       '    DirectoryIndex index.php index.html' \
+       '    <Directory /var/www/html/public>' \
+       '        Options Indexes FollowSymLinks' \
+       '        AllowOverride All' \
+       '        Require all granted' \
+       '    </Directory>' \
+       '</VirtualHost>' \
+       > /etc/apache2/sites-available/000-default.conf
 # ── Composer ──────────────────────────────────────────────────────────────────
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
