@@ -36,10 +36,11 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # ── Permissões ────────────────────────────────────────────────────────────────
-RUN mkdir -p uploads \
+RUN mkdir -p uploads var/proxies \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
     && chmod -R 777 /var/www/html/uploads \
+    && chmod -R 777 /var/www/html/var/proxies \
     && if [ -f /var/www/html/scripts/render_boot.sh ]; then sed -i 's/\r$//' /var/www/html/scripts/render_boot.sh; fi
 
 EXPOSE 80
