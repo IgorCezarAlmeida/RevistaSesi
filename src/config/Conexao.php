@@ -7,7 +7,6 @@ namespace App\Config;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
-use Doctrine\ORM\Proxy\AbstractProxyFactory;
 use PDO;
 
 final class Conexao
@@ -92,7 +91,7 @@ final class Conexao
 
         self::validateEnvVars();
 
-        // Diretório de proxies dentro do projeto (gravável no Render)
+        // Diretorio de proxies dentro do projeto (gravavel no Render)
         $proxyDir = dirname(__DIR__, 2) . '/var/proxies';
         if (!is_dir($proxyDir)) {
             mkdir($proxyDir, 0775, true);
@@ -104,9 +103,9 @@ final class Conexao
             proxyDir: $proxyDir
         );
 
-        // AUTOGENERATE_EVAL: gera proxies via eval() em memória — sem escrita em disco
-        // Ideal para ambientes efêmeros como Render
-        $config->setAutoGenerateProxyClasses(AbstractProxyFactory::AUTOGENERATE_EVAL);
+        // Evita acoplamento a constantes/classes que variam entre versoes do Doctrine.
+        // true habilita autogeracao de proxies quando necessario.
+        $config->setAutoGenerateProxyClasses(true);
 
         $driverOptions = [];
         $sslCa = Config::dbSslCa();
