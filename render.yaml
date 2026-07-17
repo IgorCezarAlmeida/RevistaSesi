@@ -17,6 +17,8 @@ services:
         value: 2pxmsaj29iFCsGe.root
       - key: DB_PASS
         value: QRCcMQV5m7Y8e7HR
+      - key: DB_SSL_CA
+        value: /etc/ssl/certs/ca-certificates.crt
 
     healthCheckPath: /index.php
 

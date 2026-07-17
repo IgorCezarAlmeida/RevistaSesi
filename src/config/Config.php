@@ -9,6 +9,30 @@ final class Config
     public const APP_NAME = 'ProjetoArtigos';
     public const BASE_URL = '/index.php';
 
+    public static function dbSslCa(): ?string
+    {
+        $candidates = [
+            getenv('DB_SSL_CA') ?: null,
+            getenv('SSL_CERT_FILE') ?: null,
+            getenv('CURL_CA_BUNDLE') ?: null,
+            ini_get('openssl.cafile') ?: null,
+            ini_get('curl.cainfo') ?: null,
+        ];
+
+        if (function_exists('openssl_get_cert_locations')) {
+            $locations = openssl_get_cert_locations();
+            $candidates[] = $locations['default_cert_file'] ?? null;
+        }
+
+        foreach ($candidates as $candidate) {
+            if (is_string($candidate) && $candidate !== '' && is_file($candidate)) {
+                return $candidate;
+            }
+        }
+
+        return null;
+    }
+
     // Lê de variáveis de ambiente (Render) com fallback para TiDB Cloud
     public static function dbHost(): string
     {

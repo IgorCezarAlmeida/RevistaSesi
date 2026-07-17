@@ -65,6 +65,10 @@ final class Conexao
             'DB_PASSWORD/DB_PASS' => self::dbPassword(),
         ];
 
+        if (str_contains(self::dbHost(), 'tidbcloud.com') && Config::dbSslCa() === null) {
+            $required['DB_SSL_CA'] = '';
+        }
+
         $missing = [];
         foreach ($required as $label => $value) {
             if ($value === '') {
@@ -92,6 +96,12 @@ final class Conexao
             isDevMode: false
         );
 
+        $driverOptions = [];
+        $sslCa = Config::dbSslCa();
+        if ($sslCa !== null) {
+            $driverOptions[PDO::MYSQL_ATTR_SSL_CA] = $sslCa;
+        }
+
         $connectionParams = [
             'driver' => self::dbDriver(),
             'host' => self::dbHost(),
@@ -100,9 +110,7 @@ final class Conexao
             'user' => self::dbUser(),
             'password' => self::dbPassword(),
             'charset' => 'utf8mb4',
-            'driverOptions' => [
-                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
-            ],
+            'driverOptions' => $driverOptions,
         ];
 
         $connection = DriverManager::getConnection($connectionParams, $config);

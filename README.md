@@ -19,6 +19,8 @@ Crie o banco e importe `database/banco.sql`.
 
 ## TiDB (Render)
 
+TiDB Cloud Serverless exige conexao TLS. O projeto agora tenta usar automaticamente um CA bundle valido; no Render, ele e configurado via `DB_SSL_CA=/etc/ssl/certs/ca-certificates.crt`.
+
 Se aparecer erro como `Table 'revistasesi.artigos' doesn't exist`, a conexao com TiDB esta OK,
 mas o schema ainda nao foi criado nesse banco.
 

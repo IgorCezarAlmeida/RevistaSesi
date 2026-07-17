@@ -4,6 +4,9 @@
   "type": "project",
   "require": {
     "php": "^8.2",
+    "ext-openssl": "*",
+    "ext-pdo": "*",
+    "ext-pdo_mysql": "*",
     "doctrine/orm": "^3.2",
     "symfony/cache": "^7.1"
   },

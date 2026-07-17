@@ -15,12 +15,18 @@ $dsn = sprintf(
 
 $requiredTables = ['usuarios', 'categorias', 'artigos', 'comentarios', 'curtidas'];
 
+$driverOptions = [];
+$sslCa = Config::dbSslCa();
+if ($sslCa !== null) {
+    $driverOptions[PDO::MYSQL_ATTR_SSL_CA] = $sslCa;
+    $driverOptions[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = true;
+}
+
 try {
     $pdo = new PDO($dsn, Config::dbUser(), Config::dbPass(), [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
-    ]);
+    ] + $driverOptions);
 
     $stmt = $pdo->prepare(
         'SELECT table_name FROM information_schema.tables WHERE table_schema = :schema AND table_name = :table LIMIT 1'

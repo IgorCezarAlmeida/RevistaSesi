@@ -82,12 +82,18 @@ $statements = [
         ON DUPLICATE KEY UPDATE nome = VALUES(nome), isAdmin = VALUES(isAdmin)"
 ];
 
+$driverOptions = [];
+$sslCa = Config::dbSslCa();
+if ($sslCa !== null) {
+    $driverOptions[PDO::MYSQL_ATTR_SSL_CA] = $sslCa;
+    $driverOptions[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = true;
+}
+
 try {
     $pdo = new PDO($dsn, Config::dbUser(), Config::dbPass(), [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
-    ]);
+    ] + $driverOptions);
 
     foreach ($statements as $sql) {
         $pdo->exec($sql);

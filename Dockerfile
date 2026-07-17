@@ -3,6 +3,7 @@ FROM php:8.2-apache
 
 # ── extensões PHP necessárias ─────────────────────────────────────────────────
 RUN apt-get update && apt-get install -y \
+        ca-certificates \
         libpq-dev \
         zip \
         unzip \
