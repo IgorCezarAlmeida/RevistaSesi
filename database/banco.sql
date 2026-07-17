@@ -38,7 +38,7 @@ CREATE TABLE categorias (
 CREATE TABLE artigos (
     id           INT          NOT NULL AUTO_INCREMENT,
     titulo       VARCHAR(180) NOT NULL,
-    resumo       VARCHAR(255) NOT NULL,
+    resumo       TEXT         NOT NULL,
     conteudo     TEXT         NOT NULL,
     imagemCapa   VARCHAR(255)     NULL DEFAULT NULL,
     autor_id     INT          NOT NULL,

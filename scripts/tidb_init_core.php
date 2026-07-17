@@ -35,7 +35,7 @@ $statements = [
     "CREATE TABLE IF NOT EXISTS artigos (
         id INT NOT NULL AUTO_INCREMENT,
         titulo VARCHAR(180) NOT NULL,
-        resumo VARCHAR(255) NOT NULL,
+        resumo TEXT NOT NULL,
         conteudo TEXT NOT NULL,
         imagemCapa VARCHAR(255) DEFAULT NULL,
         autor_id INT NOT NULL,
@@ -48,6 +48,9 @@ $statements = [
         CONSTRAINT fk_artigos_usuario FOREIGN KEY (autor_id) REFERENCES usuarios(id) ON DELETE CASCADE ON UPDATE CASCADE,
         CONSTRAINT fk_artigos_categoria FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE RESTRICT ON UPDATE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+
+    // Migration: corrige resumo para TEXT caso a tabela ja existia com VARCHAR(255)
+    "ALTER TABLE artigos MODIFY COLUMN resumo TEXT NOT NULL",
 
     "CREATE TABLE IF NOT EXISTS comentarios (
         id INT NOT NULL AUTO_INCREMENT,
@@ -96,7 +99,15 @@ try {
     ] + $driverOptions);
 
     foreach ($statements as $sql) {
-        $pdo->exec($sql);
+        try {
+            $pdo->exec($sql);
+        } catch (Throwable $ex) {
+            // ALTER TABLE idempotente pode gerar aviso em alguns drivers — ignora
+            if (stripos($sql, 'ALTER TABLE') === false) {
+                throw $ex;
+            }
+            echo '[boot] Aviso ALTER TABLE (ignorado): ' . $ex->getMessage() . PHP_EOL;
+        }
     }
 
     echo 'Schema core criado/validado com sucesso em TiDB.' . PHP_EOL;

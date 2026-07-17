@@ -21,7 +21,7 @@ class Artigo
     #[ORM\Column(type: Types::STRING, length: 180)]
     private string $titulo;
 
-    #[ORM\Column(type: Types::STRING, length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private string $resumo;
 
     #[ORM\Column(type: Types::TEXT)]
